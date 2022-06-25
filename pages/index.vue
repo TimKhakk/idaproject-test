@@ -1,34 +1,27 @@
 <template>
   <div class="container page-grid">
     <h1>Добавление товара</h1>
+    <select id="sort" name="sort" @change="sortBy">
+      <option value="default">По умолчанию</option>
+      <option value="minPrice">По цене от меньшего к большему</option>
+      <option value="maxPrice">По цене от большего к меньшему</option>
+      <option value="name">По наименованию</option>
+    </select>
     <AddForm @add-product="addProduct" />
-    <div class="product-list">
-      <ProductItem
-        v-for="item in productList"
-        :key="item.id"
-        :item="item"
-        @remove-product="removeProduct"
-      />
-    </div>
+    <ProductList :product-list="productList" :remove-product="removeProduct" />
   </div>
 </template>
 
 <script>
 import AddForm from '~/components/AddForm.vue'
 import productList from '~/constants/products.json'
-import ProductItem from '~/components/ProductItem.vue'
+import ProductList from '~/components/ProductList.vue'
 
 export default {
   name: 'IndexPage',
-  components: { AddForm, ProductItem },
+  components: { AddForm, ProductList },
   data: () => ({
     productList,
-    formData: {
-      name: '',
-      descr: '',
-      imgLink: '',
-      price: '',
-    },
   }),
   methods: {
     addProduct(item) {
@@ -36,6 +29,27 @@ export default {
     },
     removeProduct(id) {
       this.productList = this.productList.filter((item) => item.id !== id)
+    },
+    sortBy(e) {
+      const opt = e.target.value
+      if (opt === 'name') {
+        this.productList.sort((a, b) => {
+          const nameA = a.name.toLowerCase()
+          const nameB = b.name.toLowerCase()
+          if (nameA < nameB) return -1
+          if (nameA > nameB) return 1
+          return 0
+        })
+      }
+      if (opt === 'minPrice') {
+        this.productList.sort((a, b) => a.price - b.price)
+      }
+      if (opt === 'maxPrice') {
+        this.productList.sort((a, b) => b.price - a.price)
+      }
+      if (opt === 'default') {
+        this.productList.sort((a, b) => a.id - b.id)
+      }
     },
   },
 }
@@ -58,15 +72,8 @@ export default {
 }
 
 h1 {
-  grid-column: span 2;
   font-weight: 600;
   font-size: 28px;
   line-height: 35px;
-}
-
-.product-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
 }
 </style>

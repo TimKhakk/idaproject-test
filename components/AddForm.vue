@@ -3,7 +3,7 @@
     <label>
       <span class="title">Наименование товара</span>
       <input
-        v-model="formData.name"
+        v-model.trim="formData.name"
         required
         placeholder="Введите наименование товара"
         type="text"
@@ -14,7 +14,7 @@
       <span>Описание товара</span>
       <textarea
         id="descr"
-        v-model="formData.descr"
+        v-model.trim="formData.descr"
         placeholder="Введите описание товара"
         name="descr"
         cols="30"
@@ -24,7 +24,7 @@
     <label>
       <span class="title">Ссылка на изображение товара</span>
       <input
-        v-model="formData.imgLink"
+        v-model.trim="formData.imgLink"
         required
         placeholder="Введите ссылку"
         type="url"
@@ -35,14 +35,20 @@
     <label>
       <span class="title">Цена товара</span>
       <input
-        v-model="formData.price"
+        v-model.trim.number="formData.price"
         required
         placeholder="Введите цену"
         type="number"
       />
       <span class="error-message">Поле является обязательным</span>
     </label>
-    <button type="submit" @click.prevent="handleSubmit">Добавить товар</button>
+    <button
+      :disabled="isDisabledSubmitBtn"
+      type="submit"
+      @click.prevent="handleSubmit"
+    >
+      Добавить товар
+    </button>
   </form>
 </template>
 <script>
@@ -53,14 +59,19 @@ export default {
       name: '',
       descr: '',
       imgLink: '',
-      price: '',
+      price: 0,
     },
   }),
+  computed: {
+    isDisabledSubmitBtn() {
+      if (!this.formData.name) return true
+      if (!this.formData.imgLink) return true
+      if (!this.formData.price) return true
+      return false
+    },
+  },
   methods: {
     handleSubmit() {
-      const isFormEmpty = Object.values(this.formData).includes('')
-      if (isFormEmpty) return
-
       const newItem = {
         id: Date.now(),
         name: this.formData.name,
@@ -68,12 +79,12 @@ export default {
         price: this.formData.price,
         imgLink: this.formData.imgLink,
       }
-
       this.$emit('add-product', newItem)
     },
   },
 }
 </script>
+
 <style lang="scss">
 $white: #fffefb;
 $dark-blue: #49485e;
