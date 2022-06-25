@@ -1,12 +1,12 @@
 <template>
-  <div class="product-list">
+  <transition-group class="product-list" name="product-list" tag="div">
     <ProductItem
       v-for="item in productList"
       :key="item.id"
       :item="item"
       @remove-product="removeProduct"
     />
-  </div>
+  </transition-group>
 </template>
 
 <script>
@@ -28,11 +28,28 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .product-list {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 16px;
+
+  &-move,
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+  }
+
+  &-enter-from,
+  &-leave-to {
+    z-index: -1;
+    opacity: 0;
+    transform: scaleY(0.5) translate(0, 10px);
+  }
+
+  &-leave-active {
+    position: absolute;
+  }
 }
 @media only screen and (min-width: 640px) {
   .product-list {

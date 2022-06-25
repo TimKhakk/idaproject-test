@@ -30,3 +30,21 @@ export default {
   }),
 }
 </script>
+
+<style>
+#sort {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  height: 36px;
+  color: #b4b4b4;
+  font-size: 12px;
+  line-height: 15px;
+  width: max-content;
+  padding-left: 16px;
+  background: #fffefb;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 10%);
+  border-radius: 4px;
+  border: none;
+}
+</style>

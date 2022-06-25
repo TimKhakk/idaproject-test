@@ -23,6 +23,10 @@ button {
   cursor: pointer;
 }
 
+.grid {
+  display: grid;
+}
+
 .container {
   display: grid;
   width: calc(100% - 32px);

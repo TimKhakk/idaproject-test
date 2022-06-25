@@ -12,6 +12,7 @@ import AddForm from '~/components/AddForm.vue'
 import productList from '~/constants/products.json'
 import ProductList from '~/components/ProductList.vue'
 import SortSelect from '~/components/SortSelect.vue'
+import 'animate.css'
 
 export default {
   name: 'IndexPage',

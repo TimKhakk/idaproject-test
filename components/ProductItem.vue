@@ -1,6 +1,8 @@
 <template>
   <div class="product-item">
-    <img :src="item.imgLink" />
+    <div class="grid">
+      <img :src="item.imgLink" />
+    </div>
     <div class="info">
       <span class="name">{{ item.name }}</span>
       <p class="descr">{{ item.descr }}</p>
@@ -64,6 +66,7 @@ export default {
 <style lang="scss">
 .product-item {
   $dark-color: #3f3f3f;
+  max-width: 320px;
 
   display: grid;
   background: #fffefb;

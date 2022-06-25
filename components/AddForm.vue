@@ -59,7 +59,7 @@ export default {
       name: '',
       descr: '',
       imgLink: '',
-      price: 0,
+      price: '',
     },
   }),
   computed: {
@@ -79,6 +79,11 @@ export default {
         price: this.formData.price,
         imgLink: this.formData.imgLink,
       }
+      this.formData.name = ''
+      this.formData.descr = ''
+      this.formData.price = ''
+      this.formData.imgLink = ''
+
       this.$emit('add-product', newItem)
     },
   },
@@ -94,8 +99,6 @@ $dark-blue: #49485e;
 
   display: grid;
   row-gap: 16px;
-
-  width: 284px;
   border-radius: 4px;
   background: $white;
   box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.04),
@@ -139,9 +142,9 @@ $dark-blue: #49485e;
       font-size: 12px;
       border: none;
 
-      &:invalid {
-        outline: 1px solid $tomato;
-      }
+      // &:invalid {
+      //   outline: 1px solid $tomato;
+      // }
     }
 
     .error-message {
@@ -154,14 +157,15 @@ $dark-blue: #49485e;
       color: $tomato;
     }
 
-    input:invalid + .error-message {
-      opacity: 1;
-    }
+    // input:invalid + .error-message {
+    //   opacity: 1;
+    // }
   }
 
   button {
     $active: #7bae73;
 
+    transition: background 0.2s ease-in-out;
     margin-top: 8px;
     height: 36px;
     border-radius: 10px;
@@ -173,9 +177,23 @@ $dark-blue: #49485e;
 
     &:disabled {
       cursor: initial;
-      background: #eeeeee;
+      background: #eeeeee !important;
       color: #b4b4b4;
     }
+
+    &:hover {
+      background: #53a945;
+    }
+
+    &:active {
+      background: rgb(123, 175, 114);
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .form-wrapper {
+    width: 284px;
   }
 }
 </style>
