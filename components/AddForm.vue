@@ -43,7 +43,7 @@ $dark-blue: #49485e;
   display: grid;
   row-gap: 16px;
 
-  width: 332px;
+  width: 284px;
   border-radius: 4px;
   background: $white;
   box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.04),
@@ -53,7 +53,6 @@ $dark-blue: #49485e;
   label {
     display: grid;
     row-gap: 4px;
-    width: 100%;
     position: relative;
 
     span {
@@ -115,7 +114,7 @@ button {
   margin-top: 8px;
   height: 36px;
   border-radius: 10px;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 12px;
   border: none;
   background: $active;
