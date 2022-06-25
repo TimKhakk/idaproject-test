@@ -2,13 +2,19 @@
   <form class="form-wrapper">
     <label>
       <span class="title">Наименование товара</span>
-      <input required placeholder="Введите наименование товара" type="text" />
+      <input
+        v-model="formData.name"
+        required
+        placeholder="Введите наименование товара"
+        type="text"
+      />
       <span class="error-message">Поле является обязательным</span>
     </label>
     <label>
       <span>Описание товара</span>
       <textarea
         id="descr"
+        v-model="formData.descr"
         placeholder="Введите описание товара"
         name="descr"
         cols="30"
@@ -17,20 +23,55 @@
     </label>
     <label>
       <span class="title">Ссылка на изображение товара</span>
-      <input required placeholder="Введите ссылку" type="url" name="link" />
+      <input
+        v-model="formData.imgLink"
+        required
+        placeholder="Введите ссылку"
+        type="url"
+        name="imgLink"
+      />
       <span class="error-message">Поле является обязательным</span>
     </label>
     <label>
       <span class="title">Цена товара</span>
-      <input required placeholder="Введите цену" type="number" />
+      <input
+        v-model="formData.price"
+        required
+        placeholder="Введите цену"
+        type="number"
+      />
       <span class="error-message">Поле является обязательным</span>
     </label>
-    <button type="submit">Добавить товар</button>
+    <button type="submit" @click.prevent="handleSubmit">Добавить товар</button>
   </form>
 </template>
 <script>
 export default {
   name: 'AddForm',
+  data: () => ({
+    formData: {
+      name: '',
+      descr: '',
+      imgLink: '',
+      price: '',
+    },
+  }),
+  methods: {
+    handleSubmit() {
+      const isFormEmpty = Object.values(this.formData).includes('')
+      if (isFormEmpty) return
+
+      const newItem = {
+        id: Date.now(),
+        name: this.formData.name,
+        descr: this.formData.descr,
+        price: this.formData.price,
+        imgLink: this.formData.imgLink,
+      }
+
+      this.$emit('add-product', newItem)
+    },
+  },
 }
 </script>
 <style lang="scss">
@@ -106,24 +147,24 @@ $dark-blue: #49485e;
       opacity: 1;
     }
   }
-}
 
-button {
-  $active: #7bae73;
+  button {
+    $active: #7bae73;
 
-  margin-top: 8px;
-  height: 36px;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 12px;
-  border: none;
-  background: $active;
-  color: white;
+    margin-top: 8px;
+    height: 36px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 12px;
+    border: none;
+    background: $active;
+    color: white;
 
-  &:disabled {
-    cursor: initial;
-    background: #eeeeee;
-    color: #b4b4b4;
+    &:disabled {
+      cursor: initial;
+      background: #eeeeee;
+      color: #b4b4b4;
+    }
   }
 }
 </style>

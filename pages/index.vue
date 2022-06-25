@@ -1,16 +1,14 @@
 <template>
   <div class="container page-grid">
     <h1>Добавление товара</h1>
-    <AddForm />
+    <AddForm @add-product="addProduct" />
     <div class="product-list">
-      <div v-for="item in productList" :key="item.id" class="product-item">
-        <img :src="item.imgLink" />
-        <div class="info">
-          <span class="name">{{ item.name }}</span>
-          <p class="descr">{{ item.descr }}</p>
-          <span class="price">{{ item.price }} руб.</span>
-        </div>
-      </div>
+      <ProductItem
+        v-for="item in productList"
+        :key="item.id"
+        :item="item"
+        @remove-product="removeProduct"
+      />
     </div>
   </div>
 </template>
@@ -18,10 +16,11 @@
 <script>
 import AddForm from '~/components/AddForm.vue'
 import productList from '~/constants/products.json'
+import ProductItem from '~/components/ProductItem.vue'
 
 export default {
   name: 'IndexPage',
-  components: { AddForm },
+  components: { AddForm, ProductItem },
   data: () => ({
     productList,
     formData: {
@@ -31,6 +30,14 @@ export default {
       price: '',
     },
   }),
+  methods: {
+    addProduct(item) {
+      this.productList.push(item)
+    },
+    removeProduct(id) {
+      this.productList = this.productList.filter((item) => item.id !== id)
+    },
+  },
 }
 </script>
 
@@ -61,42 +68,5 @@ h1 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-}
-.product-item {
-  $dark-color: #3f3f3f;
-
-  display: grid;
-  background: #fffefb;
-  box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.04),
-    0px 6px 10px rgba(0, 0, 0, 0.02);
-  border-radius: 4px;
-
-  img {
-    object-fit: cover;
-    width: 100%;
-    height: 200px;
-  }
-
-  .info {
-    display: grid;
-    gap: 16px;
-    color: $dark-color;
-    padding: 24px 16px;
-
-    .name {
-      font-weight: 600;
-      font-size: 20px;
-    }
-
-    .descr {
-      font-size: 16px;
-      margin-bottom: 16px;
-    }
-
-    .price {
-      font-weight: 600;
-      font-size: 24px;
-    }
-  }
 }
 </style>
