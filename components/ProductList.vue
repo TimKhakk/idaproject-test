@@ -31,7 +31,27 @@ export default {
 <style>
 .product-list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 16px;
+}
+@media only screen and (min-width: 640px) {
+  .product-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media only screen and (min-width: 768px) {
+  .product-list {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+@media only screen and (min-width: 940px) {
+  .product-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media only screen and (min-width: 1400px) {
+  .product-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 </style>

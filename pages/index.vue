@@ -51,21 +51,6 @@ export default {
 </script>
 
 <style lang="scss">
-.container {
-  display: grid;
-  width: 1360px;
-  margin: 0 auto;
-  padding: 32px 16px;
-}
-
-.page-grid {
-  display: grid;
-  grid-template-columns: 332px 1fr;
-  grid-template-rows: max-content max-content;
-  align-items: start;
-  gap: 16px;
-}
-
 h1 {
   font-weight: 600;
   font-size: 28px;
