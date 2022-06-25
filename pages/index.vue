@@ -1,12 +1,7 @@
 <template>
   <div class="container page-grid">
     <h1>Добавление товара</h1>
-    <select id="sort" name="sort" @change="sortBy">
-      <option value="default">По умолчанию</option>
-      <option value="minPrice">По цене от меньшего к большему</option>
-      <option value="maxPrice">По цене от большего к меньшему</option>
-      <option value="name">По наименованию</option>
-    </select>
+    <SortSelect @sort-by="sortBy" />
     <AddForm @add-product="addProduct" />
     <ProductList :product-list="productList" :remove-product="removeProduct" />
   </div>
@@ -16,10 +11,11 @@
 import AddForm from '~/components/AddForm.vue'
 import productList from '~/constants/products.json'
 import ProductList from '~/components/ProductList.vue'
+import SortSelect from '~/components/SortSelect.vue'
 
 export default {
   name: 'IndexPage',
-  components: { AddForm, ProductList },
+  components: { AddForm, ProductList, SortSelect },
   data: () => ({
     productList,
   }),
@@ -30,8 +26,7 @@ export default {
     removeProduct(id) {
       this.productList = this.productList.filter((item) => item.id !== id)
     },
-    sortBy(e) {
-      const opt = e.target.value
+    sortBy(opt) {
       if (opt === 'name') {
         this.productList.sort((a, b) => {
           const nameA = a.name.toLowerCase()
