@@ -114,6 +114,12 @@ export default {
     opacity: 1;
     pointer-events: all;
   }
+  @media only screen and (hover: none) and (pointer: coarse) {
+    .delete-item {
+      opacity: 1 !important;
+      pointer-events: all !important;
+    }
+  }
 
   .delete-item {
     opacity: 0;

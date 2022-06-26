@@ -3,29 +3,48 @@
     <h1>Добавление товара</h1>
     <SortSelect @sort-by="sortBy" />
     <AddForm @add-product="addProduct" />
-    <ProductList :product-list="productList" :remove-product="removeProduct" />
+    <template v-if="loading">
+      <ProductListSkeleton />
+    </template>
+    <ProductList
+      v-else
+      :product-list="productList"
+      :remove-product="removeProduct"
+    />
   </div>
 </template>
 
 <script>
+import ProductListSkeleton from '../components/ProductListSkeleton.vue'
 import AddForm from '~/components/AddForm.vue'
 import productList from '~/constants/products.json'
 import ProductList from '~/components/ProductList.vue'
 import SortSelect from '~/components/SortSelect.vue'
-import 'animate.css'
 
 export default {
   name: 'IndexPage',
-  components: { AddForm, ProductList, SortSelect },
+  components: { AddForm, ProductList, SortSelect, ProductListSkeleton },
   data: () => ({
-    productList,
+    loading: true,
+    productList: [],
   }),
+  beforeMount() {
+    if (localStorage.getItem('product-list-vue')) {
+      this.productList = JSON.parse(localStorage.getItem('product-list-vue'))
+    } else {
+      localStorage.setItem('product-list-vue', JSON.stringify(productList))
+      this.productList = productList
+    }
+    this.loading = false
+  },
   methods: {
     addProduct(item) {
-      this.productList.push(item)
+      this.productList.unshift(item)
+      localStorage.setItem('product-list-vue', JSON.stringify(this.productList))
     },
     removeProduct(id) {
       this.productList = this.productList.filter((item) => item.id !== id)
+      localStorage.setItem('product-list-vue', JSON.stringify(this.productList))
     },
     sortBy(opt) {
       if (opt === 'name') {
@@ -44,7 +63,7 @@ export default {
         this.productList.sort((a, b) => b.price - a.price)
       }
       if (opt === 'default') {
-        this.productList.sort((a, b) => a.id - b.id)
+        this.productList.sort((a, b) => b.id - a.id)
       }
     },
   },
