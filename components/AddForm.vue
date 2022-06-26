@@ -116,9 +116,13 @@ export default {
         imgLink: this.form.imgLink.value,
       }
       this.form.name.value = ''
+      this.form.name.touched = false
       this.form.descr.value = ''
+      this.form.descr.touched = false
       this.form.price.value = ''
+      this.form.price.touched = false
       this.form.imgLink.value = ''
+      this.form.imgLink.touched = false
 
       this.$emit('add-product', newItem)
     },

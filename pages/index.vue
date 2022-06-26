@@ -7,10 +7,11 @@
       <ProductListSkeleton />
     </template>
     <ProductList
-      v-else
+      v-else-if="productList.length > 0"
       :product-list="productList"
       :remove-product="removeProduct"
     />
+    <p v-else class="empty-text">Товары не найдены.</p>
   </div>
 </template>
 
@@ -75,5 +76,10 @@ h1 {
   font-weight: 600;
   font-size: 28px;
   line-height: 35px;
+}
+.empty-text {
+  font-size: 20;
+  font-weight: 600;
+  text-align: center;
 }
 </style>
