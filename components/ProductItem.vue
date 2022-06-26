@@ -1,7 +1,7 @@
 <template>
   <div class="product-item">
     <div class="grid">
-      <img :src="item.imgLink" />
+      <img :src="item.imgLink" :alt="item.name" />
     </div>
     <div class="info">
       <span class="name">{{ item.name }}</span>
@@ -59,8 +59,8 @@ export default {
     },
     descr(val) {
       let res = val
-      if (val.length > 125) {
-        res = res.slice(0, 125) + '...'
+      if (val.length > 135) {
+        res = res.slice(0, 135) + '...'
       }
       return res
     },
