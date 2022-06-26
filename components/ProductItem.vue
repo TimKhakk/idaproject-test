@@ -5,8 +5,8 @@
     </div>
     <div class="info">
       <span class="name">{{ item.name }}</span>
-      <p class="descr">{{ item.descr }}</p>
-      <span class="price">{{ item.price }} руб.</span>
+      <p class="descr">{{ item.descr | descr }}</p>
+      <span class="price">{{ item.price | price }} руб.</span>
     </div>
 
     <button class="delete-item" @click="$emit('remove-product', item.id)">
@@ -46,8 +46,25 @@
 </template>
 
 <script>
+import chunk from 'lodash.chunk'
 export default {
   name: 'ProductItem',
+  filters: {
+    price(val) {
+      const arr = val.toString().split('').reverse()
+      return chunk(arr, 3)
+        .map((i) => i.reverse().join(''))
+        .reverse()
+        .join(' ')
+    },
+    descr(val) {
+      let res = val
+      if (val.length > 125) {
+        res = res.slice(0, 125) + '...'
+      }
+      return res
+    },
+  },
   props: {
     item: {
       type: Object,
@@ -66,7 +83,7 @@ export default {
 <style lang="scss">
 .product-item {
   $dark-color: #3f3f3f;
-  max-width: 320px;
+  max-width: 340px;
 
   display: grid;
   background: #fffefb;
@@ -75,6 +92,23 @@ export default {
   box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.04),
     0px 6px 10px rgba(0, 0, 0, 0.02);
   border-radius: 4px;
+
+  &-move,
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+  }
+
+  &-enter-from,
+  &-leave-to {
+    z-index: -1;
+    opacity: 0 !important;
+    transform: scaleY(0.5) translate(0, 10px) !important;
+  }
+
+  &-leave-active {
+    position: absolute !important;
+  }
 
   &:hover .delete-item {
     opacity: 1;
