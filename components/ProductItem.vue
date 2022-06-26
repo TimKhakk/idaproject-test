@@ -146,6 +146,7 @@ export default {
     object-fit: cover;
     width: 100%;
     height: 200px;
+    background: #eeeeee;
   }
 
   .info {

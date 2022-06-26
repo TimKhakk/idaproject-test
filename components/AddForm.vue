@@ -3,18 +3,26 @@
     <label>
       <span class="title">Наименование товара</span>
       <input
-        v-model.trim="formData.name"
+        v-model.trim="form.name.value"
+        :class="{ error: form.name.touched && form.name.value === '' }"
         required
         placeholder="Введите наименование товара"
         type="text"
+        @blur="form.name.touched = true"
       />
-      <span class="error-message">Поле является обязательным</span>
+      <span
+        class="error-message"
+        :class="{
+          show: form.name.touched && form.name.value === '',
+        }"
+        >Поле является обязательным</span
+      >
     </label>
     <label>
       <span>Описание товара</span>
       <textarea
         id="descr"
-        v-model.trim="formData.descr"
+        v-model.trim="form.descr.value"
         placeholder="Введите описание товара"
         name="descr"
         cols="30"
@@ -24,23 +32,39 @@
     <label>
       <span class="title">Ссылка на изображение товара</span>
       <input
-        v-model.trim="formData.imgLink"
+        v-model.trim="form.imgLink.value"
+        :class="{ error: form.imgLink.touched && form.imgLink.value === '' }"
         required
         placeholder="Введите ссылку"
         type="url"
         name="imgLink"
+        @blur="form.imgLink.touched = true"
       />
-      <span class="error-message">Поле является обязательным</span>
+      <span
+        class="error-message"
+        :class="{
+          show: form.imgLink.touched && form.imgLink.value === '',
+        }"
+        >Поле является обязательным</span
+      >
     </label>
     <label>
       <span class="title">Цена товара</span>
       <input
-        v-model.trim.number="formData.price"
+        v-model.trim.number="form.price.value"
+        :class="{ error: form.price.touched && form.price.value === '' }"
         required
         placeholder="Введите цену"
         type="number"
+        @blur="form.price.touched = true"
       />
-      <span class="error-message">Поле является обязательным</span>
+      <span
+        class="error-message"
+        :class="{
+          show: form.price.touched && form.price.value === '',
+        }"
+        >Поле является обязательным</span
+      >
     </label>
     <button
       :disabled="isDisabledSubmitBtn"
@@ -55,18 +79,30 @@
 export default {
   name: 'AddForm',
   data: () => ({
-    formData: {
-      name: '',
-      descr: '',
-      imgLink: '',
-      price: '',
+    form: {
+      name: {
+        value: '',
+        touched: false,
+      },
+      descr: {
+        value: '',
+        touched: false,
+      },
+      imgLink: {
+        value: '',
+        touched: false,
+      },
+      price: {
+        value: '',
+        touched: false,
+      },
     },
   }),
   computed: {
     isDisabledSubmitBtn() {
-      if (!this.formData.name) return true
-      if (!this.formData.imgLink) return true
-      if (!this.formData.price) return true
+      if (!this.form.name.value) return true
+      if (!this.form.imgLink.value) return true
+      if (!this.form.price.value) return true
       return false
     },
   },
@@ -74,15 +110,15 @@ export default {
     handleSubmit() {
       const newItem = {
         id: Date.now(),
-        name: this.formData.name,
-        descr: this.formData.descr,
-        price: this.formData.price,
-        imgLink: this.formData.imgLink,
+        name: this.form.name.value,
+        descr: this.form.descr.value,
+        price: this.form.price.value,
+        imgLink: this.form.imgLink.value,
       }
-      this.formData.name = ''
-      this.formData.descr = ''
-      this.formData.price = ''
-      this.formData.imgLink = ''
+      this.form.name.value = ''
+      this.form.descr.value = ''
+      this.form.price.value = ''
+      this.form.imgLink.value = ''
 
       this.$emit('add-product', newItem)
     },
@@ -142,9 +178,9 @@ $dark-blue: #49485e;
       font-size: 12px;
       border: none;
 
-      // &:invalid {
-      //   outline: 1px solid $tomato;
-      // }
+      &.error {
+        outline: 1px solid $tomato;
+      }
     }
 
     .error-message {
@@ -155,11 +191,11 @@ $dark-blue: #49485e;
       font-size: 8px;
       content: '';
       color: $tomato;
-    }
 
-    // input:invalid + .error-message {
-    //   opacity: 1;
-    // }
+      &.show {
+        opacity: 1;
+      }
+    }
   }
 
   button {
